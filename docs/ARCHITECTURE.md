@@ -135,3 +135,12 @@ Every deliberate failure is a `SolsentryError` subclass (`InputError`, `AstForma
 invariant, node cap) is skipped with a warning and listed in the report's `skipped`
 section and in SARIF `toolExecutionNotifications`; analysis of the rest continues. The CLI
 maps errors to exit code 2 and never prints a traceback for them.
+
+The analyzer reads AST nodes with direct key access and does not validate node shapes below
+the `SourceUnit` root. Everything that runs on one input file (loading, `Program`, CFG,
+dataflow, detectors, `eval` labelling, the `cfg` command) runs inside
+`errors.input_boundary(origin)`, which converts `KeyError`, `TypeError`, `AttributeError`,
+`IndexError`, `ValueError` and `RecursionError` into `AstFormatError("<file>: malformed or
+unsupported AST (...)")` and logs the original traceback at `-vv`. `analyze` reports such a
+file on stderr, keeps analysing the others, and exits 2 if any file failed (2 takes
+precedence over 1).

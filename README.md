@@ -92,7 +92,9 @@ or feed it the standard-JSON output your build already produces
 uv run solsentry analyze build/solc-output.json --source-root .
 ```
 
-Exit codes: `0` ok, `1` a finding at or above `--fail-on`, `2` input / usage error.
+Exit codes: `0` ok, `1` a finding at or above `--fail-on`, `2` input / usage error. A malformed
+AST is an input error (one `solsentry: error:` line, no traceback); `analyze` still reports the
+other files and exits `2` if any file failed, so CI never mistakes a crash for a finding.
 Findings can be suppressed inline with `// solsentry-disable-line <id>` or
 `// solsentry-disable-next-line <id>, <id>`.
 
