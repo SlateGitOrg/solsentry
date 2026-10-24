@@ -238,5 +238,210 @@
     "ast_sha256": "c3149bc69837e02ccbc668cf7b2d35ea17c8bfe22727489730a6d0ee042a3202",
     "solc": "0.8.26+commit.8a97fa7a",
     "source_sha256": "e4e09dece7d13537e7d6dfab84dcd2805c0b1079e6e2f5c59ed070bea320821b"
+  },
+  "holdout/integer-overflow/Crowdsale_fixed.sol": {
+    "ast_sha256": "d841e4609f2b76d32abceb10c5d8a38e4d042899aa00c454f5daf15b6adba9f2",
+    "solc": "0.7.6+commit.7338295f",
+    "source_sha256": "6ff10d7f991c3aa410d39ab166eaa4b5d5f3a696f084884b2f8b58c3b4de2aa4"
+  },
+  "holdout/integer-overflow/Crowdsale_vuln.sol": {
+    "ast_sha256": "5781bd3a751b45052c7112e8db725bbfd9fc7e153c83b46f04bc7359d6cf9194",
+    "solc": "0.7.6+commit.7338295f",
+    "source_sha256": "0c28364610d7863f92a989222073d5dcdb060854d688887edf37ea4a26102325"
+  },
+  "holdout/integer-overflow/FeeSplitter_fixed.sol": {
+    "ast_sha256": "14bbee66eeb81fb28a2c7cb836af7c70c83ae3581883a520fc8724a6a8695c95",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "782e7b80f3d9e5fa778e1d22d6d77040d0f58af03d4c1ab68858e2a09c266339"
+  },
+  "holdout/integer-overflow/FeeSplitter_vuln.sol": {
+    "ast_sha256": "5b2694796d69b7b5d91a340d6bd6fb147789c49ca4f7ee5b5cb98bfb89d1e874",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "71df09e6557aa36671339ab36ff1ab28074398ef7571a09e6ae986b4c55f277c"
+  },
+  "holdout/integer-overflow/TimeLockedWallet_fixed.sol": {
+    "ast_sha256": "a30738523e5650c862853d21c4d922b98616464738de5bdd212a7833f02b9855",
+    "solc": "0.7.6+commit.7338295f",
+    "source_sha256": "69096623e1b5685f01bf3f94da76b302ce69dcafbbbcd29c22937df8ee7839c7"
+  },
+  "holdout/integer-overflow/TimeLockedWallet_vuln.sol": {
+    "ast_sha256": "eabea378c5dae5e0d4cc675aec3e8ef3b80efe3ef8e60e2269fdbf58847f5fd0",
+    "solc": "0.7.6+commit.7338295f",
+    "source_sha256": "237c758df8a26fdfaa3c08f487fbd8a24282a14fe6f6832c0e5a27d42db1af05"
+  },
+  "holdout/missing-access-control/MinterRegistry_fixed.sol": {
+    "ast_sha256": "4a24fa944c548e91f22a996e9ab67bd7521902894011b0ca7df9afa4b1a5e3ac",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "0636d11d3b69302b2f9a8b52f558cc6a6008d29c8df4251f21d58fea83469058"
+  },
+  "holdout/missing-access-control/MinterRegistry_vuln.sol": {
+    "ast_sha256": "9bcc0021aa4de91e010d893584d2d8b2df2b156909dc2b39bad47b0c8ee8b828",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "f5984b1c475a8c3e05b676896d0217e8473281543dfb0977afd12209bd8a6f66"
+  },
+  "holdout/missing-access-control/Payroll_fixed.sol": {
+    "ast_sha256": "7becc193b89f89c63cf4c03115715372e870dcbf88f8567638dbcfef43b9a105",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "d46e9e560963e5c7136c9785f5a6c4a09f4f5f2585143fc6bee56d665ce2881c"
+  },
+  "holdout/missing-access-control/Payroll_vuln.sol": {
+    "ast_sha256": "44580218008a6101fc4bfa51b60c92a72e2fb2f9d4d41d5b8925025ecef9e17c",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "dfc225470c0d0a012e599cf8d92f4cda48946aafa45f935ef4ccbb325b0e1847"
+  },
+  "holdout/missing-access-control/TwoStepOwner_fixed.sol": {
+    "ast_sha256": "f650169b08cfd775099d37053cd9ae168959a0475d711e7208f2d40617713e43",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "aaad92c7483584389a11ce851718402327eed5ad39de81cdf5fafd9115e6cb3b"
+  },
+  "holdout/missing-access-control/TwoStepOwner_vuln.sol": {
+    "ast_sha256": "fa8d46dd28115c9b643961148b232dc003e92abbd4077ac19d149b4c30b6f4cd",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "a6d5fe10c6779e26cbec187a8831283b3f7727916305d4a08fda7a5799a26715"
+  },
+  "holdout/mixed/CommunityVault.sol": {
+    "ast_sha256": "6d5a29b826548ef485210a6c2b0802f5d4223a52e08d213c5adb042b2c74e67b",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "1e5c21113b9b25a12a6ed70eda865d29aae2f7538e79f51707b0beca6a09723c"
+  },
+  "holdout/mixed/LegacyExchange.sol": {
+    "ast_sha256": "d946beb70c922a8691fec430dc348bd67b50f75f85af00a8cb24128ec5aaa86f",
+    "solc": "0.7.6+commit.7338295f",
+    "source_sha256": "275dcbf0f0cc2df9a5da93f33ae65e4eb721568dfbd5c535b3437d769394ec83"
+  },
+  "holdout/mixed/NFTMarket.sol": {
+    "ast_sha256": "2b0ad9d4aed1c5856104a247e12634fc445b444abe8a03cf8108c1c18ce4fb1d",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "1fb48f0f23329c23bd6c3d6daa0b062b0a1dee2fec6645a864cb10c5e62c40d0"
+  },
+  "holdout/reentrancy/Auction_fixed.sol": {
+    "ast_sha256": "a56ddffa0c8b304c7e27601ab5f8be95fc91bf581469b6aa11b061b7c46841fa",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "d087925abfa9a5ceb2647176d063f1aa692764704ddebb7333ad1ee105f2b66d"
+  },
+  "holdout/reentrancy/Auction_vuln.sol": {
+    "ast_sha256": "f0e7c3723315e0e42906a716c4b24e174ee27acaacecee0250ccbc27b78f3ad3",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "51154239ae3fc4bb584eb31dd782841e15454551214bdc5b8bc0c3a1e1b34e73"
+  },
+  "holdout/reentrancy/HookedRouter_fixed.sol": {
+    "ast_sha256": "c46585c1ca753c4b23d74bc0713d35676323db3dad571d5ab7738d2370083054",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "5b041148859913386f01f8c5f07f457eff6823a699e810c0b3bedd6a9c3368a2"
+  },
+  "holdout/reentrancy/HookedRouter_vuln.sol": {
+    "ast_sha256": "077ad466d8c6fffa5fca32b716ecaa09186d6d9ab97754bf0f631373b9e94492",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "6daa34b39f3302f9ce3ddd581929a57f4dbba03af09b2d12239aae021c12e5cb"
+  },
+  "holdout/reentrancy/Staking_fixed.sol": {
+    "ast_sha256": "8e05efa2a9fa5c8604ee1c67857ae2ad9f8808d206c6d4bcc6df890f37f6cad1",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "26126d5aa73859c9bc22fe64f3cb16a75cddc217d94e68e7900b7905067354a8"
+  },
+  "holdout/reentrancy/Staking_vuln.sol": {
+    "ast_sha256": "a3ed09debe7b8f0075cea1de0fcf8d7feb39284b5fe98f7c270239dc024429f7",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "0b398885902c31d3b5fce65291f8655c319ee5bd67791c7f92a409a02604c315"
+  },
+  "holdout/timestamp-dependence/CoinFlip_fixed.sol": {
+    "ast_sha256": "7f8d54b356da887fef6435bf29e944ebc5c300d7e3979d17469b02740c1e45de",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "08d866e1bc547cceb3c482d9c3bd96efcef9cac60ca6a10546751662235f2061"
+  },
+  "holdout/timestamp-dependence/CoinFlip_vuln.sol": {
+    "ast_sha256": "4038ecaef025e3d2e82c2f4f11b054180e2714c75b15ec6bb0628639d4398a7d",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "93d1d37895a1e85ea550563f82f343e505e01923438acf849c40771f7dc19c5a"
+  },
+  "holdout/timestamp-dependence/Vesting_fixed.sol": {
+    "ast_sha256": "677ed30763cc2e062c2f37446e5e5939aa9fabc6c98593eb5e9adbba2a441e20",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "9986010603a0cd549156aa5b6b6b0ca89e7c9b47f9c17a6f1c4e25b2ca9fd5e9"
+  },
+  "holdout/timestamp-dependence/Vesting_vuln.sol": {
+    "ast_sha256": "32fc45f50811ff45f81036d1c6137628d34d1f388d11fff73b3fbd7538435f17",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "838616b6e6f4deb77cd6c6cbf350656594fdd46074e87c2c3520e379b68cb4f6"
+  },
+  "holdout/tx-origin/GuardedVault_fixed.sol": {
+    "ast_sha256": "4def7b6433a4b44ea4ce1566d7058762412372420c8c8763a07453a4bbcacbc2",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "938c7636de28add282343409086a65407d2c9e7a4dee67ab9de45fe9a59bb56b"
+  },
+  "holdout/tx-origin/GuardedVault_vuln.sol": {
+    "ast_sha256": "7967da10e07aafad6709d922e312f26350681f604f7fa0a110770bbe551eb049",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "457905ddee7b4274d64030d2764db6c448326ec81980e9ca5f82f7fc126a1b19"
+  },
+  "holdout/tx-origin/Pausable_fixed.sol": {
+    "ast_sha256": "ed1b3fb7a90f352c0c7a10b9b5ad5bd5c1a7f6160de3d86d4ca4019136e48642",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "691218167e48f200e7e7f329a6b60a4404b157d3ab2ea8d2d7d2e5ef36c6cb3b"
+  },
+  "holdout/tx-origin/Pausable_vuln.sol": {
+    "ast_sha256": "9ea93ac54d714be1a0b9e81659c8fa17af203f06b8e1d798405584a273334636",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "926419adca6574eed052447345c3c84e0cac59b9df993733daeeed7304262d5d"
+  },
+  "holdout/unchecked-call/Airdrop_fixed.sol": {
+    "ast_sha256": "4be45910f4d56f49a3743a95696c90a6e1af6ace8a51aa867e68f4b6835d85d1",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "c69d4d993c03ca827339af7abd6a29050154e1af9535de44aa29f0949a725a8f"
+  },
+  "holdout/unchecked-call/Airdrop_vuln.sol": {
+    "ast_sha256": "9e90e4a56d7044134e8e3e9a2cce8db4b5b59db53f9febbf0e4a3f496c268a05",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "cbf40ce7dd3887736fc40d3cca90da19bd43129686f916be0e91a5c19f2027db"
+  },
+  "holdout/unchecked-call/PriceReader_fixed.sol": {
+    "ast_sha256": "d0dff815f5a8c78f619b9060914d53812d0c0e8e8ddafa379344595fe9f05c0a",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "33efeea7f3eef8e12e246db7536d507edccfd10501fa79ce0c54825907975e46"
+  },
+  "holdout/unchecked-call/PriceReader_vuln.sol": {
+    "ast_sha256": "540a6013d50cf0a4e4c3f00577eb5af3f27990b60dbbc7c1bef58a1c30bb581b",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "b8058d92ee3774322c7957872d385820d9fa1c49dc3af840405a47ec1b902f46"
+  },
+  "holdout/unprotected-delegatecall/ModuleHost_fixed.sol": {
+    "ast_sha256": "41af1c96762ecc6a1a45581dc1d9de74087bec5da9c32fc97091155946940366",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "4cd9996f6f7099b40457c3dba55642ebf4130349e1ef31e6b0c93d42bf0e13e5"
+  },
+  "holdout/unprotected-delegatecall/ModuleHost_vuln.sol": {
+    "ast_sha256": "16fa595a0187918d2f7e85432e7558117dcb5d52ebe5d638373447b21ff43f4b",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "7b23c19434ddd53fd4ff94df9727cb88d4c2f94c613537b0229ed0ae7b1e25c0"
+  },
+  "holdout/unprotected-delegatecall/Upgradeable_fixed.sol": {
+    "ast_sha256": "b21d808c560316705cda60b2e1ed63e75dee65674ad70cda8d0a3a412f7251b6",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "f9f03efd84e0eeac85dfed2bfc041a2a0efe0a8056508e045d7fda7cc5c44c9f"
+  },
+  "holdout/unprotected-delegatecall/Upgradeable_vuln.sol": {
+    "ast_sha256": "0c5b2ed938be7f4b24c1d7c0782d6bd891f65b6e1d5d9632a64e8dba7e00d6e1",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "07d72485a289ebef83309c28c219f70e6b97947891d80de40a85a5dbd12612cc"
+  },
+  "holdout/unprotected-selfdestruct/Emergency_fixed.sol": {
+    "ast_sha256": "9e5eb29492405d0fdcf9552507f1d992d7354ef1e4f55fccfc7e8fc02d1ef53e",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "6ca39b3f29296b722b9cd1d48375c740e0efdf093e75d9b3b01b0a46933143ff"
+  },
+  "holdout/unprotected-selfdestruct/Emergency_vuln.sol": {
+    "ast_sha256": "b2e44bb8347217e4ee6735f8dbc83ebcd3425c9b8f59f7aa17b7e767e1480cb9",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "56ef16302cae2364143f356252735990ffcc1abf9b8abb59b992b64af2bd2ee6"
+  },
+  "holdout/unprotected-selfdestruct/Migrator_fixed.sol": {
+    "ast_sha256": "c61eae9f61d8d6ee536ea78326556b34069b420c2271a824209a7a9f9d097713",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "5541d626f84c571b20cdeeca952e15f0db217b198225bb1bb1527104382814cc"
+  },
+  "holdout/unprotected-selfdestruct/Migrator_vuln.sol": {
+    "ast_sha256": "976d58ac33fb2734f40170f6d244f29a8b42a58a32986765865c1f93c4be18c6",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "b1d54f56bb18c338caf862973889c4cab44e0ce214fc0723dc025898d10ef993"
   }
 }
