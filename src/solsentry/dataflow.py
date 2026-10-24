@@ -11,22 +11,19 @@ from __future__ import annotations
 from collections import deque
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Generic, TypeVar
 
 from solsentry.cfg import Cfg, CfgNode
 from solsentry.errors import SolsentryError
 
-F = TypeVar("F")
-
 
 @dataclass
-class DataflowResult(Generic[F]):
+class DataflowResult[F]:
     inputs: dict[int, F]
     outputs: dict[int, F]
     iterations: int
 
 
-def solve_forward(
+def solve_forward[F](
     cfg: Cfg,
     entry_fact: F,
     bottom: F,
@@ -36,8 +33,8 @@ def solve_forward(
 ) -> DataflowResult[F]:
     order = cfg.reverse_postorder()
     rank = {node_id: index for index, node_id in enumerate(order)}
-    inputs: dict[int, F] = {node_id: bottom for node_id in cfg.nodes}
-    outputs: dict[int, F] = {node_id: bottom for node_id in cfg.nodes}
+    inputs: dict[int, F] = dict.fromkeys(cfg.nodes, bottom)
+    outputs: dict[int, F] = dict.fromkeys(cfg.nodes, bottom)
     inputs[cfg.entry] = entry_fact
     worklist = deque(order)
     queued = set(order)

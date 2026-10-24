@@ -143,10 +143,10 @@ class FunctionAnalysis:
             if yul_type == "YulFunctionCall":
                 builtins.add(str(yul.get("functionName", {}).get("name", "")))
             elif yul_type == "YulAssignment":
-                for target in yul.get("variableNames") or []:
-                    decl = by_src.get(str(target.get("src")))
-                    if decl is not None and self.program.is_variable(decl):
-                        effects.writes.append(Write(decl, False, (), stmt, frozenset({"ASM"})))
+                for yul_target in yul.get("variableNames") or []:
+                    assigned = by_src.get(str(yul_target.get("src")))
+                    if assigned is not None and self.program.is_variable(assigned):
+                        effects.writes.append(Write(assigned, False, (), stmt, frozenset({"ASM"})))
         self.asm_builtins[node.id] = builtins
 
     def _storage_aliases(self) -> dict[int, int]:

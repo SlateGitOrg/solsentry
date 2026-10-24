@@ -28,6 +28,10 @@ class Def:
     var: int
 
 
+def _union(a: frozenset[Def], b: frozenset[Def]) -> frozenset[Def]:
+    return a | b
+
+
 class DefUse:
     def __init__(self, fa: FunctionAnalysis) -> None:
         self.fa = fa
@@ -37,7 +41,8 @@ class DefUse:
             writes = fa.effects[node.id].writes
             self._gen[node.id] = frozenset(Def(node.id, w.var) for w in writes)
             self._strong_vars[node.id] = {w.var for w in writes if w.strong}
-        result = solve_forward(fa.cfg, frozenset(), frozenset(), self._transfer, frozenset.union)
+        empty: frozenset[Def] = frozenset()
+        result = solve_forward(fa.cfg, empty, empty, self._transfer, _union)
         self.reaching_in: dict[int, frozenset[Def]] = result.inputs
         self._uses: dict[Def, list[int]] = defaultdict(list)
         for node in fa.cfg:

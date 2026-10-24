@@ -351,7 +351,7 @@ class CfgBuilder:
         if false_body is not None:
             out = out + self._statement(false_body, [(cond, "false")], ctx)
         else:
-            out = out + [(cond, "false")]
+            out = [*out, (cond, "false")]
         return out
 
     def _loop_ctx(self, ctx: _Ctx) -> _Ctx:
@@ -368,7 +368,8 @@ class CfgBuilder:
         self._connect(preds, cond)
         loop = self._loop_ctx(ctx)
         body_out = self._statement(stmt["body"], [(cond, "true")], loop)
-        assert loop.continues is not None and loop.breaks is not None
+        assert loop.continues is not None
+        assert loop.breaks is not None
         self._connect(body_out + loop.continues, cond)
         return [(cond, "false"), *loop.breaks]
 
@@ -384,7 +385,8 @@ class CfgBuilder:
             exprs=[stmt["condition"]],
             unchecked=ctx.unchecked,
         )
-        assert loop.continues is not None and loop.breaks is not None
+        assert loop.continues is not None
+        assert loop.breaks is not None
         self._connect(body_out + loop.continues, cond)
         self._connect([(cond, "true")], head)
         return [(cond, "false"), *loop.breaks]
@@ -412,20 +414,21 @@ class CfgBuilder:
         else:
             body_preds = [(head, "")]
         body_out = self._statement(stmt["body"], body_preds, loop)
-        assert loop.continues is not None and loop.breaks is not None
+        assert loop.continues is not None
+        assert loop.breaks is not None
         step_in = body_out + loop.continues
         if stmt.get("loopExpression") is not None:
             step_in = self._statement(stmt["loopExpression"], step_in, ctx)
         self._connect(step_in, head)
         return exits + loop.breaks
 
-    def _stmt_Break(self, stmt: Node, preds: list[Edge], ctx: _Ctx) -> list[Edge]:
+    def _stmt_Break(self, _stmt: Node, preds: list[Edge], ctx: _Ctx) -> list[Edge]:
         if ctx.breaks is None:
             raise AstFormatError("break outside of a loop")
         ctx.breaks.extend(preds)
         return []
 
-    def _stmt_Continue(self, stmt: Node, preds: list[Edge], ctx: _Ctx) -> list[Edge]:
+    def _stmt_Continue(self, _stmt: Node, preds: list[Edge], ctx: _Ctx) -> list[Edge]:
         if ctx.continues is None:
             raise AstFormatError("continue outside of a loop")
         ctx.continues.extend(preds)
@@ -452,7 +455,7 @@ class CfgBuilder:
         self._connect([(node, "revert")], self.cfg.revert)
         return []
 
-    def _stmt_PlaceholderStatement(self, stmt: Node, preds: list[Edge], ctx: _Ctx) -> list[Edge]:
+    def _stmt_PlaceholderStatement(self, _stmt: Node, preds: list[Edge], ctx: _Ctx) -> list[Edge]:
         if ctx.placeholder is None:
             raise AstFormatError("placeholder statement outside of a modifier")
         return ctx.placeholder(preds)

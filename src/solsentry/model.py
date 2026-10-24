@@ -101,7 +101,7 @@ class FunctionInfo:
 
     @property
     def is_entrypoint(self) -> bool:
-        """Callable from outside: public/external, fallback or receive, in a non-library contract."""
+        """Callable from outside: public/external/fallback/receive in a non-library contract."""
         if self.is_modifier or self.is_constructor or self.contract.kind == "library":
             return False
         return self.visibility in {"public", "external"} or self.kind in {
@@ -246,7 +246,7 @@ class Program:
         return parse_src(src).file_index if isinstance(src, str) else -1
 
     def checked_arithmetic(self, node: Node) -> bool:
-        """Whether arithmetic at ``node`` reverts on overflow (solc >= 0.8, outside ``unchecked``)."""
+        """Whether arithmetic at ``node`` reverts on overflow (solc >= 0.8, not ``unchecked``)."""
         version = self.compiler_version or self._pragma_versions.get(self.file_index_of(node))
         if version is None:
             return True  # unknown: assume modern semantics to avoid noise

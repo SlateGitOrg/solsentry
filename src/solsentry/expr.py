@@ -210,7 +210,7 @@ def is_self_balance(node: Node) -> bool:
     if base.get("nodeType") == "FunctionCall" and base.get("kind") == "typeConversion":
         args = base.get("arguments") or []
         base = args[0] if args else {}
-    return base.get("nodeType") == "Identifier" and base.get("name") == "this"
+    return bool(base.get("nodeType") == "Identifier" and base.get("name") == "this")
 
 
 def lvalue_roots(expr: Node) -> list[tuple[Node, bool]]:
