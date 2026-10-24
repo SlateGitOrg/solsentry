@@ -236,7 +236,7 @@ reachability, dominator and post-dominator laws, reaching-definition soundness a
 `.github/workflows/ci.yml` runs `make check`, `make demo` and `make fixtures-verify`. It has not
 been executed on GitHub yet because the repository has not been pushed.
 
-Size: `wc -l src/solsentry/*.py src/solsentry/detectors/*.py` = 4,396 lines of source;
+Size: `wc -l src/solsentry/*.py src/solsentry/detectors/*.py` = 4,400 lines of source;
 `wc -l tests/*.py` = 1,421 lines of tests.
 
 ## Design decisions (short version)
