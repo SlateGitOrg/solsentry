@@ -226,7 +226,7 @@ below 1,000 CFG nodes. Numbers vary with machine load.
 | Format | `uv run ruff format --check src tests scripts` | 42 files already formatted |
 | Lint | `uv run ruff check src tests scripts` | 0 errors, 0 warnings |
 | Types | `uv run mypy` (strict, `src` + `scripts`) | no issues in 30 files |
-| Tests + coverage | `uv run pytest --cov=solsentry --cov-fail-under=90` | 146 passed, 96.58% line+branch coverage |
+| Tests + coverage | `uv run pytest --cov=solsentry --cov-fail-under=90` | 146 passed, ~96.6% line+branch coverage (varies by ~0.1 with Hypothesis draws) |
 | Fixture reproducibility | `make fixtures-verify` (needs network once for solc) | all 91 ASTs reproduce byte-for-byte |
 
 `make check` runs the first four. Tests are unit (AST loading, source mapping, model, expression
