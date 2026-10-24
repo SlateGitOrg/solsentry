@@ -19,6 +19,7 @@ from pathlib import Path
 
 from solsentry.analysis import ProgramAnalysis
 from solsentry.detectors import select
+from solsentry.errors import input_boundary
 from solsentry.findings import Finding, Severity
 from solsentry.model import Program
 from solsentry.solast import AstInput, load_path
@@ -83,17 +84,23 @@ def analyze_input(
     exclude: list[str] | None = None,
     min_severity: Severity = Severity.INFO,
 ) -> AnalysisResult:
-    """Run the selected detectors over one parsed input."""
+    """Run the selected detectors over one parsed input.
+
+    A malformed AST raises :class:`~solsentry.errors.AstFormatError`, never a bare
+    ``KeyError``/``TypeError``/``RecursionError`` (see :func:`~solsentry.errors.input_boundary`).
+    """
     started = time.perf_counter()
-    program = Program(ast_input)
-    analysis = ProgramAnalysis(program)
-    raw: list[Finding] = []
-    for detector_cls in select(detectors, exclude):
-        detector = detector_cls(analysis)
-        produced = detector.run()
-        log.debug("%s: %d raw finding(s)", detector_cls.info.id, len(produced))
-        raw.extend(produced)
-    findings, suppressed = _postprocess(raw, ast_input)
+    selected = select(detectors, exclude)
+    with input_boundary(ast_input.origin):
+        program = Program(ast_input)
+        analysis = ProgramAnalysis(program)
+        raw: list[Finding] = []
+        for detector_cls in selected:
+            detector = detector_cls(analysis)
+            produced = detector.run()
+            log.debug("%s: %d raw finding(s)", detector_cls.info.id, len(produced))
+            raw.extend(produced)
+        findings, suppressed = _postprocess(raw, ast_input)
     findings = [f for f in findings if f.severity.rank >= min_severity.rank]
     return AnalysisResult(
         origin=ast_input.origin,
@@ -115,7 +122,9 @@ def analyze_path(
     source_root: Path | None = None,
 ) -> AnalysisResult:
     """Load ``path`` (bundle, solc standard-JSON output or SourceUnit) and analyse it."""
-    return analyze_input(load_path(path, source_root), detectors, exclude, min_severity)
+    with input_boundary(str(path)):
+        ast_input = load_path(path, source_root)
+    return analyze_input(ast_input, detectors, exclude, min_severity)
 
 
 def expand_inputs(paths: list[Path]) -> list[Path]:

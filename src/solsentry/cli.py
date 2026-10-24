@@ -1,7 +1,9 @@
 """Command-line interface.
 
 Exit codes: 0 success (no findings at or above ``--fail-on``), 1 findings at or above
-``--fail-on``, 2 usage or input error.
+``--fail-on``, 2 usage or input error. ``analyze`` keeps going past an input file it cannot
+load or analyse, reports the rest, and exits 2 if any file failed (2 wins over 1). A malformed
+AST never produces a traceback: see :func:`solsentry.errors.input_boundary`.
 """
 
 from __future__ import annotations
@@ -17,7 +19,7 @@ from solsentry import __version__
 from solsentry.cfg import build_cfg
 from solsentry.detectors import detector_infos
 from solsentry.engine import AnalysisResult, analyze_path, expand_inputs
-from solsentry.errors import SolsentryError
+from solsentry.errors import SolsentryError, input_boundary
 from solsentry.evaluation import evaluate
 from solsentry.findings import Severity
 from solsentry.model import Program
@@ -108,10 +110,20 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
     paths = expand_inputs(args.inputs)
     if not paths:
         raise SolsentryError("no input files found")
-    results: list[AnalysisResult] = [
-        analyze_path(p, args.detectors, args.exclude, args.min_severity, args.source_root)
-        for p in paths
-    ]
+    results: list[AnalysisResult] = []
+    failed = 0
+    for path in paths:
+        try:
+            results.append(
+                analyze_path(
+                    path, args.detectors, args.exclude, args.min_severity, args.source_root
+                )
+            )
+        except (SolsentryError, OSError) as exc:
+            # One unreadable or malformed file must not hide the verdict on the others: report
+            # it, keep going, and make the whole run exit 2 so CI cannot mistake it for clean.
+            print(f"solsentry: error: {exc}", file=sys.stderr)
+            failed += 1
     if args.format == "sarif":
         text = render_sarif(results)
     elif args.format == "json":
@@ -119,6 +131,9 @@ def _cmd_analyze(args: argparse.Namespace) -> int:
     else:
         text = render_text(results, color=args.color)
     _emit(text, args.output)
+    if failed:
+        log.warning("%d of %d input file(s) could not be analysed", failed, len(paths))
+        return EXIT_ERROR
     if args.fail_on is not None:
         worst = [f for r in results for f in r.findings if f.severity.rank >= args.fail_on.rank]
         if worst:
@@ -151,15 +166,17 @@ def _cmd_detectors(args: argparse.Namespace) -> int:
 
 
 def _cmd_cfg(args: argparse.Namespace) -> int:
-    program = Program(load_path(args.input, args.source_root))
-    function = program.function_by_name(args.function)
-    if function is None or function.body is None:
-        names = sorted(f.qualified_name for f in program.analyzable_functions())
-        raise SolsentryError(
-            f"no function {args.function!r} with a body; available: {', '.join(names)}"
-        )
-    graph = build_cfg(program, function)
-    _emit(graph.to_dot() if args.dot else graph.to_text(), None)
+    with input_boundary(str(args.input)):
+        program = Program(load_path(args.input, args.source_root))
+        function = program.function_by_name(args.function)
+        if function is None or function.body is None:
+            names = sorted(f.qualified_name for f in program.analyzable_functions())
+            raise SolsentryError(
+                f"no function {args.function!r} with a body; available: {', '.join(names)}"
+            )
+        graph = build_cfg(program, function)
+        text = graph.to_dot() if args.dot else graph.to_text()
+    _emit(text, None)
     return EXIT_OK
 
 

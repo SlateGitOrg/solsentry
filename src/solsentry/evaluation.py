@@ -18,6 +18,7 @@ from typing import Any
 
 from solsentry.detectors import detector_infos
 from solsentry.engine import analyze_input, expand_inputs
+from solsentry.errors import input_boundary
 from solsentry.solast import AstInput, load_path
 
 _EXPECT_RE = re.compile(r"@expect:\s*([a-z0-9\-, ]+)")
@@ -132,8 +133,9 @@ def evaluate(paths: list[Path], name: str = "fixtures") -> EvalReport:
     for info in detector_infos():
         report.per_detector[info.id] = Counts()
     for path in expand_inputs(paths):
-        ast_input = load_path(path)
-        expected = labels_of(ast_input)
+        with input_boundary(str(path)):
+            ast_input = load_path(path)
+            expected = labels_of(ast_input)
         result = analyze_input(ast_input)
         report.files += 1
         report.seconds += result.seconds
