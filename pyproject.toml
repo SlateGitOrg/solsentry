@@ -1,0 +1,68 @@
+[project]
+name = "solsentry"
+version = "0.1.0"
+description = "Static security analyzer for Solidity over the solc compact JSON AST (CFG, def-use, taint, SARIF)"
+readme = "README.md"
+authors = [
+    { name = "archit2501", email = "115419013+archit2501@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = []
+
+[project.scripts]
+solsentry = "solsentry.cli:main"
+
+[project.optional-dependencies]
+compile = [
+    "py-solc-x>=2.0.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.28,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.170.9",
+    "jsonschema>=4.26.0",
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.2",
+    "types-jsonschema>=4.26.0.20261006",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "N", "C4", "PL", "PT", "RET", "ARG"]
+ignore = ["PLR0911", "PLR0912", "PLR0913", "PLR0915", "PLR2004", "N802"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["PLC0415", "ARG001"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+files = ["src", "scripts"]
+
+[[tool.mypy.overrides]]
+module = ["solcx", "solcx.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["solsentry"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError"]
