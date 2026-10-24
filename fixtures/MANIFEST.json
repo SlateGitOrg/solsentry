@@ -443,5 +443,15 @@
     "ast_sha256": "976d58ac33fb2734f40170f6d244f29a8b42a58a32986765865c1f93c4be18c6",
     "solc": "0.8.26+commit.8a97fa7a",
     "source_sha256": "b1d54f56bb18c338caf862973889c4cab44e0ce214fc0723dc025898d10ef993"
+  },
+  "unit/Features.sol": {
+    "ast_sha256": "7547335070146f485fcaa199cc3510e1acf4169255e40eb1ea4a9b9fd8f27897",
+    "solc": "0.8.26+commit.8a97fa7a",
+    "source_sha256": "ef15a60960cfd6d026deae6e7eb5b28e126ad89ecbccc73547d056eead207a08"
+  },
+  "unit/Legacy.sol": {
+    "ast_sha256": "f7049810a33b303f152c29ce2f532e9315f17431152dd0dee10ba3a2ee48f991",
+    "solc": "0.7.6+commit.7338295f",
+    "source_sha256": "3c520d03a7a17e21023d346c627680890d95b2246e9d6fdb0bb6921a325840fe"
   }
 }

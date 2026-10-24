@@ -1,0 +1,123 @@
+{
+  "name": "holdout",
+  "files": 41,
+  "source_lines": 1329,
+  "detectors": {
+    "integer-overflow": {
+      "tp": 6,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.8571,
+      "recall": 1.0,
+      "f1": 0.9231
+    },
+    "missing-access-control": {
+      "tp": 3,
+      "fp": 2,
+      "fn": 2,
+      "precision": 0.6,
+      "recall": 0.6,
+      "f1": 0.6
+    },
+    "reentrancy": {
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "timestamp-dependence": {
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6667
+    },
+    "tx-origin": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "unchecked-call": {
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "unprotected-delegatecall": {
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6667,
+      "recall": 1.0,
+      "f1": 0.8
+    },
+    "unprotected-selfdestruct": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "total": {
+    "tp": 26,
+    "fp": 6,
+    "fn": 2,
+    "precision": 0.8125,
+    "recall": 0.9286,
+    "f1": 0.8667
+  },
+  "false_positives": [
+    [
+      "holdout/integer-overflow/FeeSplitter_vuln.sol",
+      "integer-overflow",
+      12
+    ],
+    [
+      "holdout/mixed/CommunityVault.sol",
+      "timestamp-dependence",
+      54
+    ],
+    [
+      "holdout/mixed/NFTMarket.sol",
+      "missing-access-control",
+      39
+    ],
+    [
+      "holdout/mixed/NFTMarket.sol",
+      "missing-access-control",
+      62
+    ],
+    [
+      "holdout/timestamp-dependence/CoinFlip_vuln.sol",
+      "timestamp-dependence",
+      15
+    ],
+    [
+      "holdout/unprotected-delegatecall/Upgradeable_fixed.sol",
+      "unprotected-delegatecall",
+      37
+    ]
+  ],
+  "false_negatives": [
+    [
+      "holdout/mixed/CommunityVault.sol",
+      "missing-access-control",
+      70
+    ],
+    [
+      "holdout/unprotected-delegatecall/Upgradeable_vuln.sol",
+      "missing-access-control",
+      21
+    ]
+  ]
+}

@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "solsentry",
+          "version": "0.1.0",
+          "rules": [
+            {
+              "id": "reentrancy",
+              "name": "Reentrancy",
+              "shortDescription": {
+                "text": "State written after external call"
+              },
+              "fullDescription": {
+                "text": "A call that hands control to another contract (high-level external call, call/delegatecall) is followed on some CFG path by a write to a storage variable that is read elsewhere. A re-entrant callee observes the stale value."
+              },
+              "help": {
+                "text": "Apply checks-effects-interactions (update state before the call) or a reentrancy guard such as OpenZeppelin's nonReentrant.\n\nSoundness limits: Intra-procedural paths plus internal-call summaries; cross-function and cross-contract reentrancy, read-only reentrancy and transfer()/send() (2300-gas stipend) are out of scope. Mutexes are recognised structurally.",
+                "markdown": "Apply checks-effects-interactions (update state before the call) or a reentrancy guard such as OpenZeppelin's nonReentrant.\n\n**Soundness limits.** Intra-procedural paths plus internal-call summaries; cross-function and cross-contract reentrancy, read-only reentrancy and transfer()/send() (2300-gas stipend) are out of scope. Mutexes are recognised structurally."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-841",
+                  "SWC-107"
+                ],
+                "precision": "medium",
+                "security-severity": "8.0"
+              }
+            },
+            {
+              "id": "tx-origin",
+              "name": "TxOrigin",
+              "shortDescription": {
+                "text": "Authorization through tx.origin"
+              },
+              "fullDescription": {
+                "text": "A branch or require condition depends on tx.origin. Any contract the authorised account interacts with can then act with its authority (phishing)."
+              },
+              "help": {
+                "text": "Authenticate msg.sender instead of tx.origin.\n\nSoundness limits: Flags every gating condition whose taint includes tx.origin, through locals, internal-call return values and inlined modifiers. The `tx.origin == msg.sender` idiom is excluded. Implicit flows (tx.origin only deciding a branch that later sets a flag) are not tracked.",
+                "markdown": "Authenticate msg.sender instead of tx.origin.\n\n**Soundness limits.** Flags every gating condition whose taint includes tx.origin, through locals, internal-call return values and inlined modifiers. The `tx.origin == msg.sender` idiom is excluded. Implicit flows (tx.origin only deciding a branch that later sets a flag) are not tracked."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-477",
+                  "SWC-115"
+                ],
+                "precision": "high",
+                "security-severity": "5.5"
+              }
+            },
+            {
+              "id": "unchecked-call",
+              "name": "UncheckedCall",
+              "shortDescription": {
+                "text": "Unchecked low-level call"
+              },
+              "fullDescription": {
+                "text": "call/delegatecall/staticcall/send return false instead of reverting. The boolean result is discarded, or no copy of it reaches a condition, require, return or another call."
+              },
+              "help": {
+                "text": "Wrap the call in require(...) or revert when the flag is false.\n\nSoundness limits: Follows the flag through def-use chains (copies, boolean combinations) inside the function. Passing the flag to any call or returning it counts as checked, which can hide a callee that ignores it.",
+                "markdown": "Wrap the call in require(...) or revert when the flag is false.\n\n**Soundness limits.** Follows the flag through def-use chains (copies, boolean combinations) inside the function. Passing the flag to any call or returning it counts as checked, which can hide a callee that ignores it."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-252",
+                  "SWC-104"
+                ],
+                "precision": "high",
+                "security-severity": "5.5"
+              }
+            },
+            {
+              "id": "unprotected-selfdestruct",
+              "name": "UnprotectedSelfdestruct",
+              "shortDescription": {
+                "text": "Unprotected selfdestruct"
+              },
+              "fullDescription": {
+                "text": "An externally callable function reaches selfdestruct (directly, in inline assembly, or through an internal call) without a dominating msg.sender check."
+              },
+              "help": {
+                "text": "Restrict the function to an owner/admin role, or remove selfdestruct.\n\nSoundness limits: A node counts as protected when a msg.sender identity check (==/!= against storage or a literal address, a boolean role lookup keyed by msg.sender, or an internal helper whose every exit passes such a check) dominates it in the CFG, modifiers inlined. Guards are not checked for polarity or for bypassable storage (e.g. an owner that anyone can overwrite is caught by missing-access-control).",
+                "markdown": "Restrict the function to an owner/admin role, or remove selfdestruct.\n\n**Soundness limits.** A node counts as protected when a msg.sender identity check (==/!= against storage or a literal address, a boolean role lookup keyed by msg.sender, or an internal helper whose every exit passes such a check) dominates it in the CFG, modifiers inlined. Guards are not checked for polarity or for bypassable storage (e.g. an owner that anyone can overwrite is caught by missing-access-control)."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-284",
+                  "SWC-106"
+                ],
+                "precision": "medium",
+                "security-severity": "8.0"
+              }
+            },
+            {
+              "id": "unprotected-delegatecall",
+              "name": "UnprotectedDelegatecall",
+              "shortDescription": {
+                "text": "Delegatecall to caller-controlled target"
+              },
+              "fullDescription": {
+                "text": "An externally callable function delegatecalls an address derived from its parameters, calldata or external-call results, without a dominating msg.sender check. The callee runs with this contract's storage and balance."
+              },
+              "help": {
+                "text": "Delegate only to trusted, admin-controlled implementations.\n\nSoundness limits: A node counts as protected when a msg.sender identity check (==/!= against storage or a literal address, a boolean role lookup keyed by msg.sender, or an internal helper whose every exit passes such a check) dominates it in the CFG, modifiers inlined. Only Solidity-level delegatecall in the entry function itself is inspected; delegatecall inside assembly or helper functions, and storage-held targets that are writable by anyone, are not traced.",
+                "markdown": "Delegate only to trusted, admin-controlled implementations.\n\n**Soundness limits.** A node counts as protected when a msg.sender identity check (==/!= against storage or a literal address, a boolean role lookup keyed by msg.sender, or an internal helper whose every exit passes such a check) dominates it in the CFG, modifiers inlined. Only Solidity-level delegatecall in the entry function itself is inspected; delegatecall inside assembly or helper functions, and storage-held targets that are writable by anyone, are not traced."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-829",
+                  "SWC-112"
+                ],
+                "precision": "medium",
+                "security-severity": "8.0"
+              }
+            },
+            {
+              "id": "missing-access-control",
+              "name": "MissingAccessControl",
+              "shortDescription": {
+                "text": "Missing access control"
+              },
+              "fullDescription": {
+                "text": "An externally callable, state-changing function (1) writes an *authorization variable* -- a storage variable that some msg.sender identity check in the program reads, such as `owner` or `admins` -- or (2) sends the contract's entire balance to a caller-chosen address, without a dominating msg.sender check or a one-shot initializer flag."
+              },
+              "help": {
+                "text": "Add the same access-control modifier used by the other privileged functions.\n\nSoundness limits: Privilege is inferred, not specified: a variable becomes privileged only if the code itself guards it somewhere. Business-level privileges that are never guarded anywhere (e.g. a lone unprotected mint) are invisible to this rule; a single unrelated identity check can promote a variable to privileged.",
+                "markdown": "Add the same access-control modifier used by the other privileged functions.\n\n**Soundness limits.** Privilege is inferred, not specified: a variable becomes privileged only if the code itself guards it somewhere. Business-level privileges that are never guarded anywhere (e.g. a lone unprotected mint) are invisible to this rule; a single unrelated identity check can promote a variable to privileged."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-284",
+                  "SWC-105"
+                ],
+                "precision": "medium",
+                "security-severity": "8.0"
+              }
+            },
+            {
+              "id": "integer-overflow",
+              "name": "IntegerOverflow",
+              "shortDescription": {
+                "text": "Unchecked integer arithmetic on attacker-influenced value"
+              },
+              "fullDescription": {
+                "text": "+, -, *, ** (and +=, -=, *=, ++, --) in wrapping arithmetic -- any solc < 0.8 code or an unchecked block -- where an operand is tainted by a parameter, msg.value, calldata or an external call result, and no comparison relating the operands dominates the operation (pre-check) or relates the result to an operand on every path after it (SafeMath-style post-check)."
+              },
+              "help": {
+                "text": "Use solc >= 0.8 checked arithmetic or SafeMath; keep user amounts out of unchecked.\n\nSoundness limits: Checks are matched syntactically on access paths (balances[msg.sender] is the same key everywhere); value-range reasoning is not performed, so a dominating bound such as `require(x < 100)` does not discharge `x * y`. Operands that are not attacker-influenced (e.g. loop counters, storage-only arithmetic) are never reported, which misses overflows driven by accumulated storage.",
+                "markdown": "Use solc >= 0.8 checked arithmetic or SafeMath; keep user amounts out of unchecked.\n\n**Soundness limits.** Checks are matched syntactically on access paths (balances[msg.sender] is the same key everywhere); value-range reasoning is not performed, so a dominating bound such as `require(x < 100)` does not discharge `x * y`. Operands that are not attacker-influenced (e.g. loop counters, storage-only arithmetic) are never reported, which misses overflows driven by accumulated storage."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-190",
+                  "SWC-101"
+                ],
+                "precision": "medium",
+                "security-severity": "8.0"
+              }
+            },
+            {
+              "id": "timestamp-dependence",
+              "name": "TimestampDependence",
+              "shortDescription": {
+                "text": "Dangerous block.timestamp dependence"
+              },
+              "fullDescription": {
+                "text": "A value derived from block.timestamp (directly, via locals, hashing or internal calls) is reduced with % -- i.e. used as randomness -- or compared with == / !=, which a validator can satisfy or dodge by choosing the timestamp."
+              },
+              "help": {
+                "text": "Use a verifiable randomness source (commit-reveal, VRF) and range comparisons for time windows.\n\nSoundness limits: Range comparisons (`>=`, `<`) are deliberately not reported: deadlines and vesting schedules tolerate the few seconds of validator influence. Timestamp flowing into storage and compared in another transaction is not tracked.",
+                "markdown": "Use a verifiable randomness source (commit-reveal, VRF) and range comparisons for time windows.\n\n**Soundness limits.** Range comparisons (`>=`, `<`) are deliberately not reported: deadlines and vesting schedules tolerate the few seconds of validator influence. Timestamp flowing into storage and compared in another transaction is not tracked."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "security",
+                  "CWE-829",
+                  "SWC-116"
+                ],
+                "precision": "medium",
+                "security-severity": "5.5"
+              }
+            }
+          ]
+        }
+      },
+      "originalUriBaseIds": {
+        "SRCROOT": {
+          "description": {
+            "text": "Solidity source root"
+          }
+        }
+      },
+      "results": [
+        {
+          "ruleId": "reentrancy",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "`msg.sender.call{value: amount}(\"\")` can re-enter EtherBank.withdraw before `balances` is updated"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "dev/reentrancy/EtherBank_vuln.sol",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 23,
+                  "endLine": 15,
+                  "endColumn": 57,
+                  "charOffset": 446,
+                  "charLength": 34
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "solsentryFingerprint/v1": "4730c015c22cdb45b06e4cc6f0127fee"
+          },
+          "properties": {
+            "severity": "high",
+            "confidence": "medium",
+            "contract": "EtherBank",
+            "function": "withdraw"
+          },
+          "relatedLocations": [
+            {
+              "id": 1,
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "dev/reentrancy/EtherBank_vuln.sol",
+                  "uriBaseId": "SRCROOT"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 9,
+                  "endLine": 17,
+                  "endColumn": 33,
+                  "charOffset": 549,
+                  "charLength": 24
+                }
+              },
+              "message": {
+                "text": "writes `balances` after the call"
+              }
+            }
+          ]
+        }
+      ],
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "toolExecutionNotifications": []
+        }
+      ]
+    }
+  ]
+}
