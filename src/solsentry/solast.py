@@ -160,13 +160,17 @@ def _unit_index(ast: Node) -> int:
 
 
 def _load_text(absolute_path: str, source_root: Path | None) -> str:
-    candidates = []
-    if source_root is not None:
-        candidates.append(source_root / absolute_path)
-    candidates.append(Path(absolute_path))
-    for candidate in candidates:
-        if candidate.is_file():
-            return candidate.read_text(encoding="utf-8")
+    """Read a source named by a solc ``absolutePath``, confined to ``source_root`` (default: cwd).
+
+    A crafted AST must not be able to make solsentry read (and echo into a report) files
+    outside the project, so the resolved path has to stay under the root.
+    """
+    root = (source_root if source_root is not None else Path.cwd()).resolve()
+    candidate = (root / absolute_path).resolve()
+    if not candidate.is_relative_to(root):
+        raise InputError(f"source path {absolute_path!r} escapes the source root {root}")
+    if candidate.is_file():
+        return candidate.read_text(encoding="utf-8")
     raise InputError(
         f"source text for {absolute_path!r} not found; pass --source-root or use a bundle"
     )

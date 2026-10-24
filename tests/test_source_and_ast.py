@@ -105,6 +105,25 @@ def test_standard_json_output_needs_source_root(tmp_path: Path) -> None:
         parse_document(document, "solc.json", tmp_path / "nowhere")
 
 
+@pytest.mark.parametrize("escape", ["../outside.sol", "/etc/hosts"])
+def test_source_paths_cannot_escape_the_root(tmp_path: Path, escape: str) -> None:
+    document, root = _standard_output(tmp_path)
+    (tmp_path / "outside.sol").write_text("// not part of the project\n")
+    sources = document["sources"]
+    assert isinstance(sources, dict)
+    sources[escape] = sources.pop(next(iter(sources)))
+    with pytest.raises(InputError, match="escapes the source root"):
+        parse_document(document, "solc.json", root)
+
+
+def test_relative_source_resolves_against_cwd(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    document, root = _standard_output(tmp_path)
+    monkeypatch.chdir(root)
+    assert parse_document(document, "solc.json").units[0].source.content.startswith("// SPDX")
+
+
 def test_bare_source_unit(tmp_path: Path) -> None:
     document, root = _standard_output(tmp_path)
     unit = next(iter(document["sources"].values()))["ast"]  # type: ignore[attr-defined]
