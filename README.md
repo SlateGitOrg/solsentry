@@ -1,5 +1,7 @@
 # solsentry
 
+[![CI](https://github.com/SlateGitOrg/solsentry/actions/workflows/ci.yml/badge.svg)](https://github.com/SlateGitOrg/solsentry/actions/workflows/ci.yml)
+
 A static security analyzer for Solidity that works on the solc **compact JSON AST**. It builds a
 statement-level control-flow graph per function (with modifiers inlined), runs dominator,
 def-use and taint analyses over it, and reports eight classic smart-contract bug classes as
@@ -190,7 +192,7 @@ reasoning (`FeeSplitter_vuln:12`), calendar arithmetic looks like randomness, ow
 checks make `listings` look like authorization state, allow-listed delegatecall targets are not
 treated as sanitised, and privilege is inferred only from existing guards (two FNs).
 
-These are **synthetic fixtures written by the detector author** (see [`DATA.md`](DATA.md)). The
+These are **synthetic fixtures written alongside the detectors** (see [`DATA.md`](DATA.md)). The
 numbers measure internal consistency on a small corpus, not performance against Slither,
 Mythril or any public benchmark.
 
@@ -235,8 +237,7 @@ pairs, CLI end to end), golden (eval tables, SARIF validated against a JSON Sche
 property-based (hypothesis generates nested statement trees and checks CFG edge consistency,
 reachability, dominator and post-dominator laws, reaching-definition soundness and taint bounds).
 
-`.github/workflows/ci.yml` runs `make check`, `make demo` and `make fixtures-verify`. It has not
-been executed on GitHub yet because the repository has not been pushed.
+`.github/workflows/ci.yml` runs `make check`, `make demo` and `make fixtures-verify`.
 
 Size: `wc -l src/solsentry/*.py src/solsentry/detectors/*.py` = 4,470 lines of source;
 `wc -l tests/*.py` = 1,421 lines of tests.
@@ -276,8 +277,8 @@ Size: `wc -l src/solsentry/*.py src/solsentry/detectors/*.py` = 4,470 lines of s
 - **Privilege is inferred, not specified.** missing-access-control only knows a variable is
   privileged if some identity check reads it; a lone unguarded `mint` or fee-recipient setter
   is invisible (two holdout FNs).
-- **Small, self-authored corpus.** 91 fixture files written by the detector author; no external
-  benchmark, no comparison with other tools. The holdout is held out in time, not authorship.
+- **Small, self-written corpus.** 91 fixture files written alongside the detectors; no external
+  benchmark, no comparison with other tools. The holdout is held out in time, not by a separate author.
 - **Compiler coverage.** ASTs from solc 0.7.6 and 0.8.26 are tested; 0.5/0.6 AST shapes (e.g.
   `.value()` call syntax) and pre-0.5 legacy ASTs are not.
 - **macOS solc pins use the x86-64 build** (run under Rosetta on Apple silicon); there are no
@@ -303,5 +304,5 @@ Size: `wc -l src/solsentry/*.py src/solsentry/detectors/*.py` = 4,470 lines of s
 
 ## License
 
-MIT, see [LICENSE](LICENSE). Fixture contracts are intentionally vulnerable teaching examples;
-never deploy them.
+MIT — see [LICENSE](LICENSE). Fixture contracts are intentionally vulnerable examples; never
+deploy them.

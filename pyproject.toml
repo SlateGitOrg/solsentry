@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Static security analyzer for Solidity over the solc compact JSON AST (CFG, def-use, taint, SARIF)"
 readme = "README.md"
 authors = [
-    { name = "archit2501", email = "115419013+archit2501@users.noreply.github.com" }
+    { name = "solsentry contributors" }
 ]
 requires-python = ">=3.12"
 license = "MIT"

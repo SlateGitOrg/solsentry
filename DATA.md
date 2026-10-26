@@ -40,6 +40,6 @@ byte-for-byte (needs network on first run to fetch solc).
 
 ## Not a benchmark
 
-All fixtures are synthetic and were written by the same author as the detectors. They are not
+All fixtures are synthetic and were written alongside the detectors. They are not
 SmartBugs, SolidiFI or any public benchmark, and the precision/recall figures computed on them
 are an internal-consistency measure, not a comparison with other tools.

@@ -52,7 +52,7 @@ fixtures:
 fixtures-verify:
 	$(UV) run --extra compile python -u scripts/compile_fixtures.py --verify
 
-# solsentry has no Docker-based tests; kept so every P50 repo answers `make integration`.
+# No Docker-based tests; kept so `make integration` is always valid.
 integration:
 	@echo "no integration targets: all tests run offline in 'make test'"
 
