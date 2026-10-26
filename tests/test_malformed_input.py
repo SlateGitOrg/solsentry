@@ -1,9 +1,10 @@
 """Malformed and hostile AST input: exit code 2 with a one-line error, never a traceback.
 
 docs/THREAT_MODEL.md promises that a malformed AST (for example one checked into a pull request)
-cannot crash the analyzer. These tests hold it to that: a fixed regression for the reviewer's
-example, deep nesting, a multi-file run with one bad file, the ``cfg`` and ``eval`` commands,
-and a Hypothesis fuzz test that deletes or replaces random keys of committed fixture ASTs.
+cannot crash the analyzer. These tests hold it to that: a fixed regression for a missing
+``expression`` key, deep nesting, a multi-file run with one bad file, the ``cfg`` and ``eval``
+commands, and a Hypothesis fuzz test that deletes or replaces random keys of committed fixture
+ASTs.
 """
 
 from __future__ import annotations
@@ -74,13 +75,13 @@ def _write(directory: Path, name: str, document: Any) -> Path:
 
 
 def _missing_expression(tmp_path: Path) -> Path:
-    """The reviewer's example: delete ``expression`` from the first FunctionCall."""
+    """Delete ``expression`` from the first FunctionCall."""
     document = _load(VULN)
     del _first(document, "FunctionCall")["expression"]
     return _write(tmp_path, "EtherBank_broken.json", document)
 
 
-def test_reviewer_example_exits_2_without_traceback(tmp_path: Path) -> None:
+def test_missing_expression_exits_2_without_traceback(tmp_path: Path) -> None:
     broken = _missing_expression(tmp_path)
     code, out, err = _run(["analyze", str(broken), "--fail-on", "info"])
     assert code == EXIT_ERROR
@@ -88,7 +89,7 @@ def test_reviewer_example_exits_2_without_traceback(tmp_path: Path) -> None:
     assert "Traceback (most recent" not in err and "0 input(s)" in out
 
 
-def test_reviewer_example_end_to_end_process(tmp_path: Path) -> None:
+def test_missing_expression_end_to_end_process(tmp_path: Path) -> None:
     """Through a real interpreter process: exit status 2 and no traceback on stderr."""
     broken = _missing_expression(tmp_path)
     proc = subprocess.run(

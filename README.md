@@ -278,7 +278,8 @@ Size: `wc -l src/solsentry/*.py src/solsentry/detectors/*.py` = 4,470 lines of s
   privileged if some identity check reads it; a lone unguarded `mint` or fee-recipient setter
   is invisible (two holdout FNs).
 - **Small, self-written corpus.** 91 fixture files written alongside the detectors; no external
-  benchmark, no comparison with other tools. The holdout is held out in time, not by a separate author.
+  benchmark, no comparison with other tools. The holdout is held out in time, not by a separate
+  author.
 - **Compiler coverage.** ASTs from solc 0.7.6 and 0.8.26 are tested; 0.5/0.6 AST shapes (e.g.
   `.value()` call syntax) and pre-0.5 legacy ASTs are not.
 - **macOS solc pins use the x86-64 build** (run under Rosetta on Apple silicon); there are no
